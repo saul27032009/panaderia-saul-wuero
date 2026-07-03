@@ -1,0 +1,449 @@
+```html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FARMACIA SALUD TOTAL</title>
+
+    <style>
+        /* === ESTILOS DEL MENÚ DE NAVEGACIÓN === */
+        nav {
+            background-color: #2e8b57;
+            padding: 10px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        nav a:hover {
+            color: #ffeb3b;
+        }
+
+        /* === ESTILOS GENERALES === */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        section {
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        header {
+            background: #2e8b57;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        header img {
+            max-width: 120px;
+            border-radius: 50%;
+        }
+
+        h1, h2, h3 {
+            color: #333;
+        }
+
+        /* === ESTILOS DEL CARRUSEL === */
+        .carrusel {
+            width: 80%;
+            max-width: 600px;
+            margin: 30px auto;
+            overflow: hidden;
+            position: relative;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .imagenes {
+            display: flex;
+            transition: transform 0.6s ease-in-out;
+        }
+
+        .imagen-con-texto {
+            width: 100%;
+            flex-shrink: 0;
+        }
+
+        .imagen-con-texto img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .descripcion {
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        .boton {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(255,255,255,0.8);
+            color: #333;
+            border: none;
+            padding: 10px 15px;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 50%;
+            z-index: 10;
+        }
+
+        .boton:hover {
+            background-color: white;
+        }
+
+        .prev {
+            left: 15px;
+        }
+
+        .next {
+            right: 15px;
+        }
+
+        .indicadores {
+            position: absolute;
+            bottom: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 10;
+        }
+
+        .punto {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: rgba(255,255,255,0.6);
+            cursor: pointer;
+        }
+
+        .punto.activo {
+            background-color: white;
+        }
+
+        /* === BOTONES DE CATEGORÍA === */
+        .botones-categoria {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .btn-categoria {
+            background-color: #2e8b57;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            margin: 5px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .btn-categoria:hover {
+            background-color: #1f5f3c;
+        }
+
+        footer {
+            background: #2e8b57;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- MENÚ DE NAVEGACIÓN -->
+<nav>
+    <a href="#inicio">Inicio</a>
+    <a href="#productos">Productos</a>
+    <a href="#nosotros">Nosotros</a>
+    <a href="#contacto">Contacto</a>
+    <a href="#horario">Horario</a>
+    <a href="#redes">Redes</a>
+</nav>
+
+<header id="inicio">
+    <img src="pharmacy-logo-template-icon-symbol-design-free-vector.jpg" alt="Logo Farmacia">
+    <h1>Farmacia Salud Total</h1>
+    <p>"Tu bienestar y salud son nuestra prioridad"</p>
+</header>
+
+<!-- PRODUCTOS -->
+<section id="productos">
+    <h2>Productos de la Farmacia</h2>
+
+    <ul>
+        <li>Medicamentos</li>
+        <li>Vitaminas y Suplementos</li>
+        <li>Cuidado Personal</li>
+    </ul>
+
+    <div class="botones-categoria">
+        <button class="btn-categoria" onclick="mostrarCategoria('medicamentos')">Medicamentos</button>
+        <button class="btn-categoria" onclick="mostrarCategoria('vitaminas')">Vitaminas y Suplementos</button>
+        <button class="btn-categoria" onclick="mostrarCategoria('cuidado')">Cuidado Personal</button>
+    </div>
+
+    <div class="carrusel">
+        <div class="imagenes" id="contenedor-imagenes"></div>
+
+        <button class="boton prev" onclick="cambiarImagen(-1)">❮</button>
+        <button class="boton next" onclick="cambiarImagen(1)">❯</button>
+
+        <div class="indicadores" id="indicadores"></div>
+    </div>
+</section>
+
+<!-- NOSOTROS -->
+<section id="nosotros">
+    <h2>Quiénes Somos</h2>
+
+    <p>
+        Somos una farmacia comprometida con la salud y bienestar de nuestros clientes.
+        Contamos con personal capacitado y productos farmacéuticos de alta calidad.
+    </p>
+
+    <h3>Misión</h3>
+    <p>
+        Brindar medicamentos y productos de salud confiables,
+        ofreciendo una atención profesional y accesible para toda la comunidad.
+    </p>
+
+    <h3>Visión</h3>
+    <p>
+        Ser una farmacia líder reconocida por la calidad de sus productos
+        y la excelencia en el servicio al cliente.
+    </p>
+</section>
+
+<!-- CONTACTO -->
+<section id="contacto">
+    <h2>Contacto</h2>
+
+    <p><strong>Gerente:</strong> Saul Martinez Archundia</p>
+    <p><strong>Propietaria:</strong>Saul Martinez Archundia </p>
+
+    <p><strong>Teléfonos:</strong><br>
+        55-36-57-78-31<br>
+        55-12-27-11-10
+    </p>
+</section>
+
+<!-- HORARIO -->
+<section id="horario">
+    <h2>Horario de Atención</h2>
+
+    <p><strong>Lunes a Viernes:</strong> 7:00 a.m. - 8:00 p.m.</p>
+    <p><strong>Sábado:</strong> 8:00 a.m. - 6:00 p.m.</p>
+    <p><strong>Domingo:</strong> 9:00 a.m. - 3:00 p.m.</p>
+</section>
+
+<!-- REDES -->
+<section id="redes">
+    <h2>Redes Sociales</h2>
+
+    <ul>
+        <li>Facebook: Farmacia Salud Total Oficial</li>
+        <li>Instagram: @FarmaciaSaludTotal</li>
+    </ul>
+</section>
+
+<!-- SERVICIO AL CLIENTE -->
+<section>
+    <h2>Servicio al Cliente</h2>
+
+    <p>
+        Si tienes dudas sobre medicamentos, vitaminas o productos disponibles,
+        no dudes en contactarnos.
+    </p>
+
+    <p>
+        Consulta promociones especiales y beneficios para clientes frecuentes.
+    </p>
+</section>
+
+<!-- PROYECTO -->
+<section>
+    <h2>Secciones del Proyecto</h2>
+
+    <ul>
+        <li>Medicamentos disponibles</li>
+        <li>Formulario de contacto</li>
+        <li>Promociones especiales</li>
+        <li>Enlaces a redes sociales</li>
+    </ul>
+</section>
+
+<footer>
+    <p>&copy; 2025 Farmacia Salud Total - Todos los derechos reservados</p>
+</footer>
+
+<script>
+
+const categorias = {
+
+    medicamentos: [
+        {
+            src: "medicamento1.jpg",
+            alt: "Medicamentos",
+            desc: "Medicamentos de alta calidad"
+        },
+        {
+            src: "medicamento2.jpg",
+            alt: "Medicamentos",
+            desc: "Tratamientos para toda la familia"
+        }
+    ],
+
+    vitaminas: [
+        {
+            src: "vitaminas1.jpg",
+            alt: "Vitaminas",
+            desc: "Vitaminas y suplementos"
+        },
+        {
+            src: "vitaminas2.jpg",
+            alt: "Vitaminas",
+            desc: "Refuerza tu sistema inmunológico"
+        }
+    ],
+
+    cuidado: [
+        {
+            src: "cuidado1.jpg",
+            alt: "Cuidado Personal",
+            desc: "Productos de higiene personal"
+        },
+        {
+            src: "cuidado2.jpg",
+            alt: "Cuidado Personal",
+            desc: "Cuidado y protección diaria"
+        }
+    ]
+};
+
+let categoriaActual = 'medicamentos';
+let indice = 0;
+let imagenesActuales = [];
+
+function mostrarCategoria(tipo) {
+
+    categoriaActual = tipo;
+    imagenesActuales = categorias[tipo];
+    indice = 0;
+
+    actualizarCarruselCompleto();
+}
+
+function actualizarCarruselCompleto() {
+
+    const contenedor =
+        document.getElementById('contenedor-imagenes');
+
+    const indicadoresContenedor =
+        document.getElementById('indicadores');
+
+    contenedor.innerHTML = '';
+    indicadoresContenedor.innerHTML = '';
+
+    imagenesActuales.forEach((img, i) => {
+
+        const div = document.createElement('div');
+
+        div.className = 'imagen-con-texto';
+
+        div.innerHTML = `
+            <img src="$images (2).jpg " alt="${img.alt}">
+            <div class="descripcion">${img.desc}</div>
+        `;
+
+        contenedor.appendChild(div);
+
+        const punto = document.createElement('div');
+
+        punto.classList.add('punto');
+
+        if (i === 0) {
+            punto.classList.add('activo');
+        }
+
+        punto.addEventListener('click', () => irAImagen(i));
+
+        indicadoresContenedor.appendChild(punto);
+    });
+
+    actualizarCarrusel();
+}
+
+function cambiarImagen(direccion) {
+
+    const total = imagenesActuales.length;
+
+    indice = (indice + direccion + total) % total;
+
+    actualizarCarrusel();
+}
+
+function irAImagen(numero) {
+
+    indice = numero;
+
+    actualizarCarrusel();
+}
+
+function actualizarCarrusel() {
+
+    const contenedor =
+        document.querySelector('.imagenes');
+
+    contenedor.style.transform =
+        `translateX(-${indice * 100}%)`;
+
+    const todosPuntos =
+        document.querySelectorAll('.punto');
+
+    todosPuntos.forEach((punto, index) => {
+
+        punto.classList.toggle(
+            'activo',
+            index === indice
+        );
+    });
+}
+
+window.onload = () =>
+    mostrarCategoria('medicamentos');
+
+</script>
+
+</body>
+</html>
+```

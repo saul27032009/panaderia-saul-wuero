@@ -209,6 +209,15 @@ footer{
     padding:20px;
 }
 
+
+/* ===== CARRUSEL ===== */
+.carrusel{max-width:900px;margin:40px auto;position:relative;overflow:hidden;border-radius:15px;box-shadow:0 8px 20px rgba(0,0,0,.2)}
+.slides{display:flex;transition:transform .5s ease}
+.slides img{width:100%;flex:0 0 100%;height:450px;object-fit:cover}
+.prev,.next{position:absolute;top:50%;transform:translateY(-50%);background:rgba(0,0,0,.5);color:#fff;border:none;padding:12px 16px;font-size:24px;cursor:pointer}
+.prev{left:10px}.next{right:10px}
+.dots{text-align:center;padding:10px}.dot{display:inline-block;width:12px;height:12px;border-radius:50%;background:#bbb;margin:4px;cursor:pointer}.dot.active{background:#8B4513}
+
 </style>
 
 </head>
@@ -255,6 +264,25 @@ footer{
 
 </div>
 
+</section>
+
+
+<section id="galeria">
+<h2 class="titulo">Galería</h2>
+<div class="carrusel">
+<div class="slides" id="slides">
+<img src="imagenes/bolillo.jpg" alt="">
+<img src="imagenes/concha.jpg" alt="">
+<img src="imagenes/pan.jpg" alt="">
+</div>
+<button class="prev" onclick="moveSlide(-1)">❮</button>
+<button class="next" onclick="moveSlide(1)">❯</button>
+</div>
+<div class="dots">
+<span class="dot active" onclick="currentSlide(0)"></span>
+<span class="dot" onclick="currentSlide(1)"></span>
+<span class="dot" onclick="currentSlide(2)"></span>
+</div>
 </section>
 
 <!-- ================= PRODUCTOS ================= -->
@@ -435,6 +463,17 @@ a cada uno de nuestros clientes.
         <button type="submit">Enviar</button>
 
     </form>
+
+
+<script>
+let idx=0;
+const slides=document.getElementById('slides');
+const dots=document.querySelectorAll('.dot');
+function render(){if(!slides)return;slides.style.transform='translateX(-'+(idx*100)+'%)';dots.forEach((d,i)=>d.classList.toggle('active',i===idx));}
+function moveSlide(n){idx=(idx+n+3)%3;render();}
+function currentSlide(n){idx=n;render();}
+setInterval(()=>moveSlide(1),3000);
+</script>
 
 </body>
 </html>
